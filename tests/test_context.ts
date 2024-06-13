@@ -40,6 +40,17 @@ describe('contexts', () => {
                         msgstr: ['test ctx2'],
                     },
                 },
+                newCtx: {
+                    'Click ${ 0 } and ${ 1 }': {
+                        msgid: 'Click ${ 0 } and ${ 1 }',
+                        msgstr: ['Click ${ 1 } and ${ 0 } ctx2'],
+                    },
+                    '${ 0 } hour': {
+                        msgid: '${ 0 } hour',
+                        msgid_plural: '${ 0 } hours',
+                        msgstr: ['${ 0 } hour ctx2', '${ 0 } hours ctx2'],
+                    },
+                },
             },
         };
         loadLocale('en2', enLocale);
@@ -79,6 +90,12 @@ describe('contexts', () => {
 
         const result2 = gettext('test');
         expect(result2).to.eql('test default');
+    });
+
+    it('should resolve translation from the default context if the term doesnt exist in the given context', () => {
+        const result1 = c('newCtx').gettext('test');
+
+        expect(result1).to.eql('test default');
     });
 
     it('should throw if context is not a string', () => {

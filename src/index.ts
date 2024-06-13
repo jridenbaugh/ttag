@@ -73,8 +73,11 @@ export class TTag {
         if (!localeData) return null;
         // verbose format
         if ('translations' in localeData) {
-            const translations = localeData.translations[ctx] || localeData.translations[''];
-            const translation = translations && translations[str];
+            const contextTranslations = localeData.translations[ctx];
+            const fallbackTranslations = localeData.translations[''];
+            const translation =
+                (contextTranslations && contextTranslations[str]) ||
+                (fallbackTranslations && fallbackTranslations[str]);
             if (translation && !isFuzzy(translation) && hasTranslations(translation.msgstr)) {
                 return translation.msgstr;
             }
